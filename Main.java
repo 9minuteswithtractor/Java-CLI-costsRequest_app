@@ -6,7 +6,7 @@ import modelandservice.Employee;
 import modelandservice.Management;
 
 /**
- * // HAVE TO IMPLEMENT OOP_INHERITANCE
+ *                    **Task requirements**
  * Organization has hierarchy CEO <- Division Director
  * <- Subdivision Manager <- Program Manager <- Project Manager.
  * <p>
@@ -17,23 +17,12 @@ import modelandservice.Management;
  * Choose your favorite OOP language and implement CLI application
  * using _Chain of Responsibility_ pattern (https://refactoring.guru/design-patterns/chain-of-responsibility)
  * CLI must take in as an input expense request amount and print out who did approve the request.
- * -
- */
-
-
-/**
- * notes:
- * Names are random and have been generated automatically with gpt...
- * 1. John Smith
- * 2. Sarah Johnson
- * 3. David Williams
- * 4. Jennifer Brown
- * 5. Michael Davis
- * 6. Lisa Anderson
- * 7. Robert Taylor
- * 8. Jessica Martinez
- * 9. Matthew Wilson
- * 10. Amanda Thompson
+ *
+ *                      **For code-reviewer**
+ *      Names are random and have been generated automatically with chat gpt...
+ *      I do realize that it's not exact approach as Chain of Responsibility_ pattern
+ *      as I did not use nodes (handlers). However, this is my solution version ( using
+ *      my current programming skills )
  */
 
 public class Main {
@@ -72,8 +61,9 @@ public class Main {
         employmentProcess.setMaxCostAmountLimit(projectManager, 5_00);
         employmentProcess.addEmployee(projectManager, employeeList);
 
-        float requestedAmount = 0;
+
         boolean canContinue = false;
+        float requestedAmount = 0;
         while (!canContinue) {
             System.out.print("Enter amount of costs You need to approve?: ");
             try {
@@ -85,40 +75,24 @@ public class Main {
             }
         }
 
-
         ArrayList<Employee> authorizedToApprove = new ArrayList<>();
-
-        // FIXME => potential BUG => early crash if amount > 100_000
-        int lastInChain = employeeList.size() -1 ; // have to check if this can approve
+        // FIXME => potential BUG : early crash if amount > 100_000
 
         for (int i = 0; i < employeeList.size(); i++) {
 
             boolean canApprove = employeeList.get(i).canApproveThisCostRequest(employeeList.get(i), requestedAmount);
-//            boolean isInRangeOfAllLimits =
+
             if (canApprove) {
                 authorizedToApprove.add(employeeList.get(i));
-
-                // if the last person in chain cannot approve
             }
-
-
-
         }
-//        if (employeeList.get(lastInChain).getCostAmountLimit() < requestedAmount){
-//
-//            System.out.println("Unfortunately this amount is over the limit ...");
-//            System.out.println("Try to lower the costs!");
-//
-//        }
-
-
 
         String personWhoWillApprove = "";
         String jobTitleWhoWillApprove = "";
 
-        Employee theOneWhoCanApprove = authorizedToApprove.get(0);
         float theAmountOfApproval = authorizedToApprove.get(0).getCostAmountLimit();
 
+        Employee theOneWhoCanApprove = authorizedToApprove.get(0);
         for (int i = 0; i < authorizedToApprove.size(); i++) {
 
             if (authorizedToApprove.get(i).getCostAmountLimit() <= theOneWhoCanApprove.getCostAmountLimit()) {
